@@ -1,0 +1,7 @@
+C:\Users\admin\Documents\Учеба\ЯрГУ работы\3 курс\1 семестр\Методы программирования\Discount\Discount\bin\Debug\Discount.exe.config
+C:\Users\admin\Documents\Учеба\ЯрГУ работы\3 курс\1 семестр\Методы программирования\Discount\Discount\bin\Debug\Discount.exe
+C:\Users\admin\Documents\Учеба\ЯрГУ работы\3 курс\1 семестр\Методы программирования\Discount\Discount\bin\Debug\Discount.pdb
+C:\Users\admin\Documents\Учеба\ЯрГУ работы\3 курс\1 семестр\Методы программирования\Discount\Discount\obj\Debug\Discount.csproj.AssemblyReference.cache
+C:\Users\admin\Documents\Учеба\ЯрГУ работы\3 курс\1 семестр\Методы программирования\Discount\Discount\obj\Debug\Discount.csproj.CoreCompileInputs.cache
+C:\Users\admin\Documents\Учеба\ЯрГУ работы\3 курс\1 семестр\Методы программирования\Discount\Discount\obj\Debug\Discount.exe
+C:\Users\admin\Documents\Учеба\ЯрГУ работы\3 курс\1 семестр\Методы программирования\Discount\Discount\obj\Debug\Discount.pdb
