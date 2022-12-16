@@ -6,150 +6,113 @@ using System.Threading.Tasks;
 
 namespace Discount
 {
-    public abstract class Product
+    public class Product
     {
         public string Description { get; set; }
-        public float Cost;
-        public int Count;
+        public float Cost { get; set; }
     }
-    public class TypeOfProduct : Product
+    public class Item
     {
-        public TypeOfProduct(string name, float cost, int cnt)
-        {
-            Description = name;
-            Cost = cost;
-            Count = cnt;
-        }
-    }
-    public class Porchase
-    {
-        public List<Product> Products { get; set; }
-        public bool AvailableOfClientCard { get; set; }
-        public bool TodayIsBirthday { get; set; }
+        public Product Product { get; set; }
+        public int Count { get; set; }
 
-        public Porchase()
-        {
-            Products = new List<Product>();
-        }
-        public float GetSumm()
-        {
-            float sumCost = 0;
-            foreach (Product p in Products)
-            {
-                sumCost += p.Cost * p.Count;
-            }
-            if (AvailableOfClientCard == true)
-            {
-                sumCost = 0;
-                for (int i = 0; i < Products.Count; i++)
-                {
-                    WithClientCard disc = new WithClientCard(Products[i]);
-                    sumCost += Products[i].Cost * Products[i].Count;
-                }
-                return sumCost;
-            }
-            if (TodayIsBirthday == true && AvailableOfClientCard == false)
-            {
-                sumCost = 0;
-                for (int i = 0; i < Products.Count; i++)
-                {
-                    OnBirthday disc = new OnBirthday(Products[i]);
-                    sumCost += Products[i].Cost * Products[i].Count;
-                }
-                return sumCost;
-            }
-            if (sumCost > 1000)
-            {
-                sumCost = 0;
-                for (int i = 0; i < Products.Count; i++)
-                {
-                    OnAllProduct disc = new OnAllProduct(Products[i]);
-                    sumCost += Products[i].Cost * Products[i].Count;
-                }
-                return sumCost;
-            }
-            else
-            {
-                sumCost = 0;
-                for (int i = 0; i < Products.Count; i++)
-                {
-                    if (Products[i].Count >= 3)
-                    {
-                        OnMoreThanThree disc = new OnMoreThanThree(Products[i]);
-                    }
-                    if (Products[i].Description == "Шоколад" && Products[i].Count < 3)
-                    {
-                        OnThisProduct disc = new OnThisProduct(Products[i]);
-                    }
-                    sumCost += Products[i].Cost * Products[i].Count;
-                }
-                return sumCost;
-            }
-        }
     }
-    public interface Discount
+    public class ItemWithCost
     {
-        float GetDiscount(Product product);
+        public Item Item { get; set; }
+        public float Cost { get; set; }
     }
-    public class OnThisProduct : Discount
+    public interface IDiscount
     {
-        public OnThisProduct(Product product)
+        ICollection<Item> GetDiscount(Item[] items);
+    }
+    public interface IDiscountCompatibleRule
+    {
+        bool IsCompatible(IDiscount d1, IDiscount d2);
+    }
+
+    public class OnThisProduct : IDiscount
+    {
+        public ICollection<Item> GetDiscount(Item[] items)
         {
-            product.Cost -= GetDiscount(product);
-            product.Description = product.Description + " На данный товар";
-        }
-        public float GetDiscount(Product product)
-        {
-            return (float)((float)product.Cost * 0.1);
+            float ValueOfDisc = 0.25f;
+            foreach (Item item in items)
+            {
+                //Расчет цены со скидкой            
+            }
+            return items;
         }
     }
 
-    public class OnMoreThanThree : Discount
+    public class OnMoreThanThree : IDiscount
     {
-        public OnMoreThanThree(Product product)
+        public ICollection<Item> GetDiscount(Item[] items)
         {
-            product.Cost -= GetDiscount(product);
-            product.Description = product.Description + " Для 3-х и более товаров";
-        }
-        public float GetDiscount(Product product)
-        {
-            return (float)((float)product.Cost * 0.1);
+            float ValueOfDisc = 0.25f;
+            foreach (Item item in items)
+            {
+                //Расчет цены со скидкой            
+            }
+            return items;
         }
     }
-    public class OnAllProduct : Discount
+    public class OnAllProduct : IDiscount
     {
-        public OnAllProduct(Product product)
+        public ICollection<Item> GetDiscount(Item[] items)
         {
-            product.Cost -= GetDiscount(product);
-            product.Description = product.Description + " На сумму покупки";
-        }
-        public float GetDiscount(Product product)
-        {
-            return (float)((float)product.Cost * 0.1);
+            float ValueOfDisc = 0.25f;
+            foreach (Item item in items)
+            {
+                //Расчет цены со скидкой            
+            }
+            return items;
         }
     }
-    public class WithClientCard : Discount
+    public class WithClientCard : IDiscount
     {
-        public WithClientCard(Product product)
+        public ICollection<Item> GetDiscount(Item[] items)
         {
-            product.Cost -= GetDiscount(product);
-            product.Description = product.Description + " По клиентской карте магазина";
-        }
-        public float GetDiscount(Product product)
-        {
-            return (float)((float)(product.Cost * 0.15));
+            float ValueOfDisc = 0.25f;
+            foreach (Item item in items)
+            {
+                //Расчет цены со скидкой            
+            }
+            return items;
         }
     }
-    public class OnBirthday : Discount
+    public class OnBirthday : IDiscount
     {
-        public OnBirthday(Product product)
+        public ICollection<Item> GetDiscount(Item[] items)
         {
-            product.Cost -= GetDiscount(product);
-            product.Description = product.Description + " По дню рождения ";
+            float ValueOfDisc = 0.25f;
+            foreach (Item item in items)
+            {
+                //Расчет цены со скидкой            
+            }
+            return items;
         }
-        public float GetDiscount(Product product)
+    }
+    public interface IDiscountCalculator
+    {
+        ICollection<IDiscount> Discount { get; set; }
+        ICollection<IDiscountCompatibleRule> DiscountCompatibleRule { get; set; }
+        float GetMaxDiscount(ICollection<ItemWithCost> Items);//Находит максимальное значение
+                                                              //скидки с учетом совместимостей, используя DiscountCompatibleRule.
+    }
+
+    public class Purchase
+    {
+        public ICollection<ItemWithCost> purchaseItems;
+        public IDiscountCalculator CalculatDiscount;
+        public float GetTotalCost()
         {
-            return (float)((float)product.Cost * 0.25);
+            float SumOfPurchase = 0;
+            foreach (ItemWithCost item in purchaseItems)
+            {
+                SumOfPurchase += item.Cost;
+            }
+            SumOfPurchase -= CalculatDiscount.GetMaxDiscount(purchaseItems);
+            return SumOfPurchase;
         }
 
     }
